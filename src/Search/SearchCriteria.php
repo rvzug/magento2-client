@@ -25,6 +25,9 @@ class SearchCriteria
     /** @var SearchGroup[] */
     protected $searchGroups = [];
 
+    /** @var SearchSortOrder[] */
+    protected $sortOrders = [];
+
     /**
      * @param int $pageSize
      */
@@ -66,6 +69,30 @@ class SearchCriteria
     }
 
     /**
+     * @return SearchGroup[]
+     */
+    public function getSearchOrders(): array
+    {
+        return $this->searchOrders;
+    }
+
+    /**
+     * @param SearchGroup[] $searchGroups
+     */
+    public function setSearchorders(array $searchOrders)
+    {
+        $this->searchorders = $searchOrders;
+    }
+
+    /**
+     * @param SearchGroup $searchOrder
+     */
+    public function addSearchOrder(SearchOrder $searchOrder)
+    {
+        $this->addSearchOrders[] = $searchOrder;
+    }
+
+    /**
      * @return int
      */
     public function getPageSize(): int
@@ -90,10 +117,16 @@ class SearchCriteria
             'pageSize' => $this->pageSize,
             'currentPage' => $this->currentPage,
             'filter_groups' => [],
+            'filter_groups' => [],
         ];
 
         foreach ($this->searchGroups as $searchGroup) {
             $array['filter_groups'][] = $searchGroup->toArray();
+        }
+
+        foreach ($this->sortOrders as $sortOrder)
+        {
+            $array['sortOrders'][] = $sortOrder->toArray();
         }
 
         return $array;
